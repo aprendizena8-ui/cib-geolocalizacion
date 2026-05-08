@@ -11,9 +11,9 @@ class Node {
 
 class NodeService {
   final List<Node> nodes = [
-    Node("Nodo Alpha", "Hackear servidor de notas", 4.710, -74.230),
-    Node("Nodo Beta", "Interceptar señal de radio", 4.711, -74.220),
-    Node("Nodo Gamma", "Sabotaje de drones", 4.715, -74.225),
+    Node("Nodo Alpha", "Hackear servidor de notas", 4.695610, -74.217093),
+    Node("Nodo Beta", "Interceptar señal de radio", 4.736500, -74.256500),
+    Node("Nodo Gamma", "Sabotaje de drones", 4.734900, -74.253900),
   ];
 
   Future<Node?> getNearestNode(Position userPos) async {
@@ -22,10 +22,31 @@ class NodeService {
 
     for (var node in nodes) {
       double distance = Geolocator.distanceBetween(
-        userPos.latitude, userPos.longitude,
-        node.lat, node.lon,
+        userPos.latitude,
+        userPos.longitude,
+        node.lat,
+        node.lon,
       );
-      if (distance < 500 && distance < minDistance) {
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearest = node;
+      }
+    }
+    return nearest;
+  }
+
+  Future<Node?> getNearestNodeInRange(Position userPos, double maxDistance) async {
+    Node? nearest;
+    double minDistance = double.infinity;
+
+    for (var node in nodes) {
+      double distance = Geolocator.distanceBetween(
+        userPos.latitude,
+        userPos.longitude,
+        node.lat,
+        node.lon,
+      );
+      if (distance <= maxDistance && distance < minDistance) {
         minDistance = distance;
         nearest = node;
       }

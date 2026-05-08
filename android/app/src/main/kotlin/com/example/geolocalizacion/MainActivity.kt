@@ -1,4 +1,4 @@
-package com.example.shadownet
+package com.example.geolocalizacion
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

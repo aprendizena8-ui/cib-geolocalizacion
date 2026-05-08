@@ -22,6 +22,16 @@ class ShadowNetApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ShadowNet',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            fontFamily: 'RobotoMono',
+            color: Colors.greenAccent,
+          ),
+        ),
+      ),
       home: const MainScreen(),
     );
   }

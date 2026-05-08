@@ -2,7 +2,6 @@
 
 A new Flutter project.
 
-## Getting Started
 # 🛰️ ShadowNet: Protocolo de Infiltración Georeferenciada
 
 > *CLASIFICACIÓN:* ULTRA SECRETO  

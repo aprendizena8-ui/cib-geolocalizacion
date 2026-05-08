@@ -11,9 +11,9 @@ class Node {
 
 class NodeService {
   final List<Node> nodes = [
-    Node("Nodo Alpha", "Hackear servidor de notas", 4.695610, -74.217093),
-    Node("Nodo Beta", "Interceptar señal de radio", 4.736500, -74.256500),
-    Node("Nodo Gamma", "Sabotaje de drones", 4.734900, -74.253900),
+    Node("Nodo Alpha (Centro Histórico)", "Hackear servidor de notas", 4.695610, -74.217093),
+    Node("Nodo Beta (Parque Principal)", "Interceptar señal de radio", 4.736500, -74.256500),
+    Node("Nodo Gamma (Zona Industrial)", "Sabotaje de drones", 4.734900, -74.253900),
   ];
 
   Future<Node?> getNearestNode(Position userPos) async {

@@ -33,13 +33,19 @@ class TerminalWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      color: Colors.black,
+      color: Colors.black.withOpacity(0.8),
       child: Text(
         message,
-        style: const TextStyle(
-          fontFamily: 'RobotoMono',
+        style: TextStyle(
+          fontFamily: 'Courier',
           color: Colors.greenAccent,
           fontSize: 16,
+          shadows: [
+            Shadow(
+              color: Colors.greenAccent,
+              blurRadius: 10,
+            ),
+          ],
         ),
       ),
     );

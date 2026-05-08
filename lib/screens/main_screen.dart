@@ -14,6 +14,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   Node? nearestNode;
+  double? distance;
 
   @override
   void initState() {
@@ -50,8 +51,20 @@ class _MainScreenState extends State<MainScreen> {
     );
 
     NodeService service = NodeService();
-    nearestNode = await service.getNearestNode(pos);
-    setState(() {});
+    Node? node = await service.getNearestNode(pos);
+
+    if (node != null) {
+      double dist = Geolocator.distanceBetween(
+        pos.latitude,
+        pos.longitude,
+        node.lat,
+        node.lon,
+      );
+      setState(() {
+        nearestNode = node;
+        distance = dist;
+      });
+    }
   }
 
   @override
@@ -62,20 +75,55 @@ class _MainScreenState extends State<MainScreen> {
       return Scaffold(
         backgroundColor: Colors.black,
         body: Center(
-          child: ElevatedButton(
-            onPressed: authProvider.authenticate,
-            child: const Text("Escanear Huella"),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.greenAccent,
+                ),
+                onPressed: authProvider.isLocked
+                    ? null
+                    : () => authProvider.authenticate(),
+                child: const Text(
+                  "Escanear Huella",
+                  style: TextStyle(
+                    fontFamily: 'RobotoMono',
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                authProvider.statusMessage,
+                style: const TextStyle(
+                  fontFamily: 'RobotoMono',
+                  color: Colors.redAccent,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("ShadowNet Terminal")),
+      appBar: AppBar(
+        title: const Text("ShadowNet Terminal"),
+        backgroundColor: Colors.black,
+      ),
       body: Center(
         child: nearestNode == null
-            ? const TerminalWidget(message: "🌍 No hay nodos disponibles")
-            : TerminalWidget(message: "📡 Nodo Detectado: ${nearestNode!.name}"),
+            ? const TerminalWidget(
+                message: "🌍 No hay nodos disponibles en tu zona",
+              )
+            : TerminalWidget(
+                message: "📡 Nodo Detectado: ${nearestNode!.name}\n"
+                    "Misión: ${nearestNode!.mission}\n"
+                    "Distancia: ${distance?.toStringAsFixed(0)} metros",
+                missionCompleted: true,
+              ),
       ),
     );
   }
